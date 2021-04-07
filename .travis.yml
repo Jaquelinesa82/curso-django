@@ -15,4 +15,7 @@ install:
   - pipenv sync --dev
 script:
   - pipenv run flake8
-  - pipenv run pytest
+  - pipenv run pytest --cov=pro
+
+after_success:
+  - pipenv run codecov
