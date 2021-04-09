@@ -15,8 +15,8 @@ import dj_database_url
 from decouple import config, Csv
 from functools import partial
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) # falta configurar o heroku com os dominios [precisa pagar heroku?]
 
 
 # Application definition
@@ -115,14 +115,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# Configuração de ambiente de desenvolvimento
+# Config. de ambiente de desenvolvimento
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Config. de ambiente para permissão de upload de arquivo
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
@@ -133,31 +133,32 @@ AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 # STORAGE CONFIGURATON IN S3 AWS
 # --------------------------------------------------------------------------
 
-if AWS_ACCESS_KEY_ID:
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+if AWS_ACCESS_KEY_ID:# verifica se existe um valor nao vazio
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_OBJECT_PARAMETERS = {'cacheControl': 'max-age=86400', }
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', } # controle de cache do S3
     AWS_PRELOAD_METADATA = True
     AWS_AUTO_CREATE_BUCKET = False
-    AWS_QUERYSTRING_AUTH = True
+    AWS_QUERYSTRING_AUTH = True  # gera URLs assinadas
+    AWS_S3_CUSTOM_DOMAIN = None  # sera utilizado o proprio dominio do S3
 
-    AWS_S3_CUSTOM_DOMAIN = None
     COLLECTFAST_ENABLED = True
-    AWS_DEFAULT_ACL = 'private'
+
+    AWS_DEFAULT_ACL = 'private' # para os arquivos do S3 nao ficarem publicos
 
     # Static Assets
-    # --------------------------------------------------------------------
-    STATICFILE_STORAGE = 's3_folder_storage.a3.StaticStorage'
+    # ------------------------------------------------------------------------------
+    STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
     STATIC_S3_PATH = 'static'
-    STATIC_ROOT = f'{STATIC_S3_PATH}'
+    STATIC_ROOT = f'/{STATIC_S3_PATH}/'
     STATIC_URL = f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{STATIC_S3_PATH}/'
     ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
-    # Uploald Media Folder
-    DEFAULT_FILE_STORAGE = 's3.folder_storage.s3.DefaultStorage'
+    # Upload Media Folder
+    DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
     DEFAULT_S3_PATH = 'media'
     MEDIA_ROOT = f'/{DEFAULT_S3_PATH}/'
     MEDIA_URL = f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{DEFAULT_S3_PATH}/'
 
-    INSTALLED_APPS.append('s3.folder_storage')
+    INSTALLED_APPS.append('s3_folder_storage')
     INSTALLED_APPS.append('storages')
