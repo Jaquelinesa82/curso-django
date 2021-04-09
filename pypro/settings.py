@@ -31,6 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) # falta configurar o heroku com os dominios [precisa pagar heroku?]
 
 
@@ -139,7 +140,8 @@ AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
 # STORAGE CONFIGURATON IN S3 AWS
 # --------------------------------------------------------------------------
-if AWS_ACCESS_KEY_ID:# verifica se existe um valor nao vazio
+
+if AWS_ACCESS_KEY_ID: # verifica se existe um valor nao vazio
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', } # controle de cache do S3
