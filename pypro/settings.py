@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'pypro.urls'
 
 TEMPLATES = [
@@ -130,8 +131,10 @@ COLLECTFAST_ENABLED = False
 
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
+
 # STORAGE CONFIGURATON IN S3 AWS
 # --------------------------------------------------------------------------
+
 
 if AWS_ACCESS_KEY_ID:# verifica se existe um valor nao vazio
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -141,7 +144,6 @@ if AWS_ACCESS_KEY_ID:# verifica se existe um valor nao vazio
     AWS_AUTO_CREATE_BUCKET = False
     AWS_QUERYSTRING_AUTH = True  # gera URLs assinadas
     AWS_S3_CUSTOM_DOMAIN = None  # sera utilizado o proprio dominio do S3
-
     COLLECTFAST_ENABLED = True
 
     AWS_DEFAULT_ACL = 'private' # para os arquivos do S3 nao ficarem publicos
