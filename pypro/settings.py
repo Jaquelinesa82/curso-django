@@ -152,7 +152,6 @@ if AWS_ACCESS_KEY_ID:  # verifica se existe um valor nao vazio
 
     AWS_DEFAULT_ACL = 'private'  # para os arquivos do S3 nao ficarem publicos
 
-
     # Static Assets
     # ------------------------------------------------------------------------------
     STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
