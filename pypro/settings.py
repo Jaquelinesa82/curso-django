@@ -29,7 +29,6 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) # falta configurar o heroku com os dominios [precisa pagar heroku?]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -131,11 +130,8 @@ COLLECTFAST_ENABLED = False
 
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
-
 # STORAGE CONFIGURATON IN S3 AWS
 # --------------------------------------------------------------------------
-
-
 if AWS_ACCESS_KEY_ID:# verifica se existe um valor nao vazio
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
