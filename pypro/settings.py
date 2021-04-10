@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'collestfast',
     'django.contrib.staticfiles',
     'pypro.base'
 ]
