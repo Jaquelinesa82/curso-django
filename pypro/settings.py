@@ -146,6 +146,7 @@ if AWS_ACCESS_KEY_ID:  # verifica se existe um valor nao vazio
     AWS_QUERYSTRING_AUTH = True  # gera URLs assinadas
 
     AWS_S3_CUSTOM_DOMAIN = None  # sera utilizado o proprio dominio do S3
+
     COLLECTFAST_ENABLED = True
     COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
 
