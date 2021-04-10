@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'collestfast',
+    'collectfast',
     'django.contrib.staticfiles',
     'pypro.base'
 ]
@@ -133,6 +133,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 COLLECTFAST_ENABLED = False
 
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
 # STORAGE CONFIGURATON IN S3 AWS
@@ -144,12 +147,9 @@ if AWS_ACCESS_KEY_ID:  # verifica se existe um valor nao vazio
     AWS_PRELOAD_METADATA = True
     AWS_AUTO_CREATE_BUCKET = False
     AWS_QUERYSTRING_AUTH = True  # gera URLs assinadas
-
     AWS_S3_CUSTOM_DOMAIN = None  # sera utilizado o proprio dominio do S3
 
     COLLECTFAST_ENABLED = True
-    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
-
     AWS_DEFAULT_ACL = 'private'  # para os arquivos do S3 nao ficarem publicos
 
     # Static Assets
