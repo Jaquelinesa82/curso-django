@@ -48,7 +48,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    email = models.EmailField(_('email address'), unique=True)  #  Não poderá haver dois usuário utilizando o mesmo email.
+    #  Não poderá haver dois usuário utilizando o mesmo email.
+    email = models.EmailField(_('email address'), unique=True)
     #  is_staff => defina os usuários que podem acessar o admin do django
     is_staff = models.BooleanField(
         _('staff status'),
