@@ -17,6 +17,16 @@ class UserManager(BaseUserManager):
             raise ValueError('O nome de usuário fornecido deve ser definido')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
+
+    def _create_user(self, username, email, password, **extra_fields):
+        """
+        Crie e salve um usuário com o nome de usuário, e-mail e senha fornecidos.
+        """
+        if not username:
+            raise ValueError('O nome de usuário fornecido deve ser definido')
+        email = self.normalize_email(email)
+        username = self.model.normalize_username(username)
+        user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -26,6 +36,12 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email=None, password=None, **extra_fields):
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(username, email, password, **extra_fields)
+
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -35,6 +51,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
