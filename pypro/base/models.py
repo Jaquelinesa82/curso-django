@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    email = models.EmailField(_('email address'), unique=True)  # Não poderá haver dois usuário utilizando o mesmo email.
+    email = models.EmailField(_('email address'), unique=True)  #  Não poderá haver dois usuário utilizando o mesmo email.
     #  is_staff => defina os usuários que podem acessar o admin do django
     is_staff = models.BooleanField(
         _('staff status'),
@@ -71,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = []
 
     #  class Meta => define algunas classe global no caso essa será uma concreta.
     class Meta:
@@ -96,4 +96,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Envie um email para este usuário."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
-
