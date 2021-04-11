@@ -9,71 +9,54 @@ from django.core.mail import send_mail
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email, password, **extra_fields):
-        """
-        Crie e salve um usuário com o nome de usuário, e-mail e senha fornecidos.
-        """
-        if not email:
-            raise ValueError('O nome de usuário fornecido deve ser definido')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-
     def _create_user(self, username, email, password, **extra_fields):
         """
-        Crie e salve um usuário com o nome de usuário, e-mail e senha fornecidos.
+        Create and save a user with the given email and password.
         """
         if not username:
-            raise ValueError('O nome de usuário fornecido deve ser definido')
+            raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        username = self.model.normalize_username(username)
-        user = self.model(username=username, email=email, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email=None, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, email=None, password=None, **extra_fields):
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(username, email, password, **extra_fields)
-
-    def create_superuser(self, username, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
+    def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_staff', True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
-        return self._create_user(username, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     """
-    Classe de usuário base do aplicativo.
-    E-mail e senha são obrigatórios. Outros campos são opcionais.
+    App base user class.
+
+    Email and password are required. Other fields are optional.
     """
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), unique=True)
-    #  is_staff => defina os usuários que podem acessar o admin do django
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
-        help_text=_('indica se o usuário pode fazer login neste site de administração.'),
+        help_text=_('Designates whether the user can log into this admin site.'),
     )
     is_active = models.BooleanField(
         _('active'),
         default=True,
         help_text=_(
-            'Designa se este usuário deve ser tratado como ativo. '
-            'Desmarque isto em vez de deletar contas.'
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
         ),
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
@@ -94,15 +77,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         """
-        Retorne o first_name mais o último_name, com um espaço no meio.
+        Return the first_name plus the last_name, with a space in between.
         """
         full_name = '%s' % (self.first_name)
         return full_name.strip()
 
     def get_short_name(self):
-        """Retorne o nome abreviado do usuário."""
+        """Return the short name for the user."""
         return self.first_name
 
     def email_user(self, subject, message, from_email=None, **kwargs):
-        """Envie um email para este usuário."""
+        """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
