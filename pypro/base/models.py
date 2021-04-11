@@ -9,26 +9,23 @@ from django.core.mail import send_mail
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, username, email, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         """
         Crie e salve um usuário com o nome de usuário, e-mail e senha fornecidos.
         """
-        if not username:
+        if not email:
             raise ValueError('O nome de usuário fornecido deve ser definido')
-        #  Normalize o endereço de e-mail colocando em letras minúsculas a parte do domínio dele.
         email = self.normalize_email(email)
-        username = self.model.normalize_username(username)
-        user = self.model(username=username, email=email, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
+    def create_user(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(username, email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, username, email=None, password=None, **extra_fields):
+    def create_superuser(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -37,7 +34,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(username, email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -54,7 +51,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text=_('indica se o usuário pode fazer login neste site de administração.'),
     )
-    #  is_active => define o usuário que pode se logar dentro do sistema.
     is_active = models.BooleanField(
         _('active'),
         default=True,
@@ -63,7 +59,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             'Desmarque isto em vez de deletar contas.'
         ),
     )
-    #  date_joined => define quando o usuário entrou no sistema.
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     objects = UserManager()
@@ -72,7 +67,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    #  class Meta => define algunas classe global no caso essa será uma concreta.
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
