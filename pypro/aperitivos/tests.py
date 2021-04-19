@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 
+
 @pytest.fixture
 def resp(client):
     return client.get(reverse('aperitivos:video', args=('motivacao',)))
