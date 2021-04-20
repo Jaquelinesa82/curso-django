@@ -24,7 +24,7 @@ before_script:
 
 script:
   - pipenv run flake8
-  - pipenv run pytest --cov=pypro
+  - pipenv run  --cov=pypro
 
 after_success:
   - pipenv run codecov
