@@ -23,4 +23,3 @@ def test_home_link(resp):
 
 def test_email_link(resp):
     assert_contains(resp, 'href="mailto:jaquelinesa.82@gmail.com"')
-
