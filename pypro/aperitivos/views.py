@@ -8,7 +8,6 @@ class Video:
         self.titulo = titulo
         self.youtube_id = youtube_id
 
-
     def get_absolute_url(self):
         return reverse('aperitivos:video', args=(self.slug,))
 
