@@ -15,7 +15,7 @@ env:
     - PIPENV_IGNORE_VETUALENVS=1
 
 install:
-  - pip install pipenv
+  - pip install -q pipenv codecov
   - pipenv sync --dev
   - cp contrib/env-sample .env
 
@@ -24,7 +24,7 @@ before_script:
 
 script:
   - pipenv run flake8
-  - pipenv run  --cov=pypro
+  - pipenv run pytest --cov=pypro
 
 after_success:
   - pipenv run codecov
