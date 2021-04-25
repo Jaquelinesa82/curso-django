@@ -131,3 +131,6 @@ dmypy.json
 # Media & static files
 staticfiles/
 mediafiles/
+
+# postgres files for local developemnt
+.pgdata
