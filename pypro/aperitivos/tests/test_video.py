@@ -1,14 +1,14 @@
 import pytest
+from model_mommy import mommy
 from django.urls import reverse
 from pypro.aperitivos.models import Video
 from pypro.django_assertions import assert_contains
 
 
 @pytest.fixture
-def Video(db):
-    v = Video(slug='motivacao', titulo='Vídeo Aperitivos: Motivação', youtube_id='alALqQFykNs')
-    v.save()
-    return v
+def video(db):
+    return mommy.make(Video)
+
 
 @pytest.fixture
 def resp(client, video):
@@ -17,10 +17,10 @@ def resp(client, video):
 
 @pytest.fixture
 def resp_video_nao_encontrado(client, video):
-    return client.get(reverse('aperitivos:video', args=(video.slug+'video_não_existente',)))
+    return client.get(reverse('aperitivos:video', args=(video.slug + 'video_nao_existente',)))
 
 
-def test_status_code_video_não_encontrado(resp_video_nao_encontrado):
+def test_status_code_video_nao_encontrado(resp_video_nao_encontrado):
     assert resp_video_nao_encontrado.status_code == 404
 
 

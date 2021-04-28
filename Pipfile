@@ -14,13 +14,13 @@ collectfast = "*"
 django-debug-toolbar = "*"
 sentry-sdk = "*"
 
-
 [dev-packages]
 flake8 = "*"
 pytest-django = "*"
 pytest-cov = "*"
 codecov = "*"
 pytest = "*"
+model-mommy = "*"
 
 [requires]
 python_version = "3.8"
