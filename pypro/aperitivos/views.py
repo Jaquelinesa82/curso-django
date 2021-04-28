@@ -3,7 +3,7 @@ from pypro.aperitivos.models import Video
 
 
 def indice(request):
-    videos=Video.object.order_by('creation').all()
+    videos = Video.object.order_by('creation').all()
     return render(request, 'aperitivos/indice.html', context={'videos': videos})
 
 
