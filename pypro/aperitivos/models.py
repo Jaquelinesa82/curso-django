@@ -3,8 +3,8 @@ from django.urls import reverse
 
 
 class Video(models.Model):
-    slug = models.CharField(max_length=32)
-    titulo = models.SlugField(max_length=32)
+    titulo = models.CharField(max_length=32)
+    slug = models.SlugField(max_length=32)
     youtube_id = models.CharField(max_length=32)
     creation = models.DateTimeField(auto_now_add=True)
 
