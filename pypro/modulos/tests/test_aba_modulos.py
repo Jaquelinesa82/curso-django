@@ -20,4 +20,3 @@ def resp(client, modulos):
 def test_titulos_dos_modulos(resp, modulos):
     for modulo in modulos:
         assert_contains(resp, modulo.titulo)
-
