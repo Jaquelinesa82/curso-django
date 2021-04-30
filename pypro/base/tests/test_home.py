@@ -5,8 +5,9 @@ from pypro.django_assertions import assert_contains
 
 
 @pytest.fixture
-def resp(client):
-    return client.get(reverse('base:home'))
+def resp(client, db):
+    resp = client.get(reverse('base:home'))
+    return resp
 
 
 def test_status_code(resp):
@@ -22,4 +23,4 @@ def test_home_link(resp):
 
 
 def test_email_link(resp):
-    assert_contains(resp, 'href="mailto:jaquelinesa.82@gmail.com"')
+    assert_contains(resp, 'href="mailto:ramalho@python.pro.br"')
