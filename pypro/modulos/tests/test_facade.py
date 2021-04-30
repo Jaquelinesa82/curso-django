@@ -1,13 +1,12 @@
 import pytest
-from model_mommy import mommy
-
+from model_bakery import baker
 from pypro.modulos import facade
 from pypro.modulos.models import Modulo
 
 
 @pytest.fixture
 def modulos(db):
-    return [mommy.make(Modulo, titulo=s) for s in 'Antes Depois'.split()]
+    return [baker.make(Modulo, titulo=s) for s in 'Antes Depois'.split()]
 
 
 def test_listar_modulos_ordenados(modulos):
