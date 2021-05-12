@@ -31,10 +31,6 @@ def test_indice_disponivel(resp):
     assert resp.status_code == 200
 
 
-def test_indice_disponivel(resp):
-    assert resp.status_code == 200
-
-
 def test_titulo(resp, modulos: List[Modulo]):
     for modulo in modulos:
         assert_contains(resp, modulo.titulo)
