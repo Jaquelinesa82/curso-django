@@ -1,8 +1,6 @@
 import pytest
 from django.urls import reverse
 from model_bakery import baker
-
-from pypro.django_assertions import assert_contains
 from pypro.modulos.models import Modulo, Aula
 
 
@@ -17,6 +15,7 @@ def aulas(modulos):
     for modulo in modulos:
         aulas.extend(baker.make(Aula, 3, modulo=modulo))
         return aulas
+
 
 @pytest.fixture
 def resp(client, modulos, aulas):
