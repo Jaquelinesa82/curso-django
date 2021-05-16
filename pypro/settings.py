@@ -35,9 +35,15 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 AUTH_USER_MODEL = 'base.User'
 
+LOGIN_REDIRECT_URL = '/modulos/'
+
 # Application definition
 
 INSTALLED_APPS = [
+    'pypro.base',
+    'pypro.turmas',
+    'pypro.aperitivos',
+    'pypro.modulos',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,10 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'collectfast',
     'django.contrib.staticfiles',
-    'pypro.base',
-    'pypro.turmas',
-    'pypro.aperitivos',
-    'pypro.modulos',
     'ordered_model',
     'django_extensions',
 
